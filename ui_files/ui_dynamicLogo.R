@@ -3,7 +3,9 @@ conditionalPanel(condition = "input.logo_plot_toggle",
                      sidebarPanel(
                          h4("Dynamic Logo Plot"),
                          verticalLayout(
-                             numericInput(inputId = "sequence_length", labe = "Sequence Length",min = 5, max = 21, value = 13, step = 1),
+                             splitLayout(
+                                numericInput(inputId = "sequence_length", label = "Sequence Length",min = 5, max = 21, value = 13, step = 1),
+                                radioButtons(inputId = "logo_type", label = "Logo Type:",  choices = c("EDLOGO", "ggseqlogo"))),
                              downloadFigureUI("logo",filename = "logoplot",download_label = "Export")
                          )
                      ),

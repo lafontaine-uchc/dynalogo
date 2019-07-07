@@ -9,7 +9,13 @@ logo_data<-reactive({
     temp_data
 })
 gglogo<-reactive({
-    ggseqlogo(logo_data()$Sequence,seq_type='aa')
+    if (input$logo_type == "EDLOGO"){
+        logo = logomaker(logo_data()$Sequence, type = "EDLogo")
+    } 
+    if (input$logo_type == "ggseqlogo"){
+        logo = ggseqlogo(logo_data()$Sequence,seq_type='aa')
+    } 
+    logo
 })
 output$test_logo<- renderPlot({
     gglogo()
