@@ -11,10 +11,13 @@ graph_data<-reactive({
   temp
 })
 ggbarplot <- reactive({
+    req(input$'xaxis-reactiveColDropdown')
     #ggplot(temp, aes(Signal) + geom_bar(aes(temp$Signal)))
     graph_column<-sym(input$graph_by)
     ylabel<-sub("_"," ",input$graph_by)
-    xaxis<-sym(input$'xaxis-reactiveColDropdown')
+    xaxis<-sym(input$'xaxis-reactiveColDropdown')    
+
+
 
         if (input$sorting == "ascending"){
             g <- ggplot(data = graph_data(), aes(x = reorder(!!(xaxis), (!!(graph_column))),y = (!!(graph_column)),fill = Probe,label = !!(xaxis))) +

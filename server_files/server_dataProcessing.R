@@ -22,10 +22,11 @@ SH2_filter<-reactive({
 })
 slide_filter<-reactive({
     #browser()
+    req(input$array_selection)
     if(input$array_selection == "None"){
-    SH2_filter()
+        SH2_filter()
       }else{
-    temp<-SH2_filter() %>% filter(slide_template %in% input$chosen_templates)
+        temp<-SH2_filter() %>% filter(slide_template %in% input$chosen_templates)
       }
 })
 

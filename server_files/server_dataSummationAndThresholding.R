@@ -1,4 +1,5 @@
 output$thresholding_slider <- renderUI({
+    req(input$thresholding_type)
     if(input$thresholding_type == "Percentage"){
         sliderInput(inputId = "threshold", label ="Threshold_level(% of max)", 
                     min = 0,max = 100,value =0,
