@@ -10,7 +10,10 @@ logo_data<-reactive({
 })
 gglogo<-reactive({
     if (input$logo_type == "EDLOGO"){
-        logo = logomaker(logo_data()$Sequence, type = "EDLogo")
+        validate(
+            need(nrow(logo_data()) > 8, "EDLogo requires more than 8 samples")
+        )
+        logo = Logolas::logomaker(logo_data()$Sequence, type = "EDLogo")
     } 
     if (input$logo_type == "ggseqlogo"){
         logo = ggseqlogo(logo_data()$Sequence,seq_type='aa')
