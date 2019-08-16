@@ -1,3 +1,4 @@
+library(Biostrings)
 library(shiny)
 library(data.table)
 library(dtplyr)

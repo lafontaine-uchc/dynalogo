@@ -83,7 +83,7 @@ observeEvent(input$ok, {
     # Check that data object exists using variable from server_uiDisplayLoadingControl.R
     if (rv$setupComplete==TRUE) {
         removeModal()
-        show(id = "headerbar")
+        shinyjs::show(id = "headerbar")
     } else {
         showModal(dataModal(failed = TRUE))
     }
