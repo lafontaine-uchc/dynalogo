@@ -3,7 +3,7 @@ tagList(
     splitLayout(
         pickerInput("table_display_selector",
                     "Select Data to Display in Table",
-                    choices=c("Imported Data","Boxplot","Scatterplot","Histogram","Graph Data","Digital Binding","Logo Data"),
+                    choices=c("Imported Data","Boxplot","Scatterplot","Histogram","Graph Data","Digital Binding","Logo Data", "Logo Background Data"),
                     options = list(`actions-box` = TRUE),multiple = F,selected ="Logo Data"),
         textInput("downloadFileName", "Filename: ", "data.csv" ),
         downloadButton("downloadData", "Download Data Table" ),

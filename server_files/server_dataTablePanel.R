@@ -34,6 +34,8 @@ display_data<-reactive({
       boxPlotData()
     }else if (input$table_display_selector == "Histogram"){
       get_avgs()
+    }else if (input$table_display_selector == "Logo Background Data"){
+        background_rates()
     }
 })
 
@@ -44,6 +46,6 @@ output$sequences_text<-renderDataTable(display_data(), filter = "top",
 output$downloadData<-downloadHandler(
     filename = function(){input$downloadFileName},
     content = function(file) {
-        write_csv(display_data(), file)
+        write_csv(as_tibble(display_data()), file)
     }
 )
