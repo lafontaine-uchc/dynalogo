@@ -24,13 +24,16 @@ foreground_rates<- reactive({
     PSSM <- consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
 })
 add_zero_rows_to_PSSM<- function(PSSM1,PSSM2){
-    if (length(rownames(PSSM1)) < length(rownames(PSSM2))){
+    while (length(rownames(PSSM1)) < length(rownames(PSSM2))){
         missing_row_index <- rownames(PSSM2) %in% rownames(PSSM1)
-        missing_row_name <- PSSM2[missing_row_index]
-        PSSM1[sym(missing_row_name),] = 0
-    }else{
-        PSSM1
+        missing_row_name <- rownames(PSSM2)[!missing_row_index][1]
+        PSSM1 <-rbind(PSSM1, rep(0, dim(PSSM1)[2]))
+        rownames(PSSM1)[rownames(PSSM1) == ""]<- missing_row_name
+        PSSM1<-as.data.frame(PSSM1)
+        PSSM1<-PSSM1[order(row.names(PSSM1)), ]
+        PSSM1<-as.matrix(PSSM1)
     }
+    PSSM1
 }
 
 gglogo<-reactive({
@@ -39,7 +42,9 @@ gglogo<-reactive({
             need(nrow(logo_data()) > 8, "EDLogo requires more than 8 samples")
         )
         if(input$custom_background == TRUE){
-            logo = Logolas::logomaker(foreground_rates(),bg = background_rates(), type = "EDLogo")
+            fr <-add_zero_rows_to_PSSM(foreground_rates(), background_rates())
+            br <-add_zero_rows_to_PSSM(background_rates(), foreground_rates())
+            logo = Logolas::logomaker(fr,bg = br, type = "EDLogo")
         }else{
             logo = Logolas::logomaker(foreground_rates(), type = "EDLogo")
         }
