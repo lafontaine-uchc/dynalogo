@@ -35,7 +35,7 @@ display_data<-reactive({
     }else if (input$table_display_selector == "Histogram"){
       get_avgs()
     }else if (input$table_display_selector == "Logo Background Data"){
-        background_rates()
+        background_data()
     }
 })
 

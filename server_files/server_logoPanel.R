@@ -16,21 +16,36 @@ background_data <- reactive({
 background_rates<- reactive({
 #    background_data()$Sequence
     string_set <- AAStringSet(background_data()$Sequence)
-    PSSM <- consensusMatrix(string_set, as.prob = TRUE)
+    PSSM <- consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
 })
+foreground_rates<- reactive({
+    #    background_data()$Sequence
+    string_set <- AAStringSet(logo_data()$Sequence)
+    PSSM <- consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
+})
+add_zero_rows_to_PSSM<- function(PSSM1,PSSM2){
+    if (length(rownames(PSSM1)) < length(rownames(PSSM2))){
+        missing_row_index <- rownames(PSSM2) %in% rownames(PSSM1)
+        missing_row_name <- PSSM2[missing_row_index]
+        PSSM1[sym(missing_row_name),] = 0
+    }else{
+        PSSM1
+    }
+}
+
 gglogo<-reactive({
     if (input$logo_type == "EDLOGO"){
         validate(
             need(nrow(logo_data()) > 8, "EDLogo requires more than 8 samples")
         )
         if(input$custom_background == TRUE){
-            logo = Logolas::logomaker(logo_data()$Sequence,bg = background_rates(), type = "EDLogo")
+            logo = Logolas::logomaker(foreground_rates(),bg = background_rates(), type = "EDLogo")
         }else{
-            logo = Logolas::logomaker(logo_data()$Sequence, type = "EDLogo")
+            logo = Logolas::logomaker(foreground_rates(), type = "EDLogo")
         }
     } 
     if (input$logo_type == "ggseqlogo"){
-        logo = ggseqlogo(logo_data()$Sequence,seq_type='aa')
+        logo = ggseqlogo(foreground_rates(),seq_type='aa')
     } 
     logo
 })
