@@ -15,13 +15,13 @@ background_data <- reactive({
 })
 background_rates<- reactive({
 #    background_data()$Sequence
-    string_set <- AAStringSet(background_data()$Sequence)
-    PSSM <- consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
+    string_set <- Biostrings::AAStringSet(background_data()$Sequence)
+    PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
 })
 foreground_rates<- reactive({
     #    background_data()$Sequence
-    string_set <- AAStringSet(logo_data()$Sequence)
-    PSSM <- consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
+    string_set <- Biostrings::AAStringSet(logo_data()$Sequence)
+    PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
 })
 add_zero_rows_to_PSSM<- function(PSSM1,PSSM2){
     while (length(rownames(PSSM1)) < length(rownames(PSSM2))){
