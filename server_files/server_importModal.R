@@ -128,7 +128,7 @@ output$column_selection <- renderUI({
     verticalLayout(
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "spot_id_selection",label = "Name", choices = c("None",headers), selected = "Name"),
+               selectInput(inputId = "spot_id_selection",label = "Name *", choices = c("None",headers), selected = "Name"),
                bsPopover(id = "spot_id_selection", "Name of spots","Please select the column name which contains the names for the positions on the array", placement = "right")
                ),
         column(width = 6,
@@ -138,17 +138,17 @@ output$column_selection <- renderUI({
       ),
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "sequence_selection",label = "Sequence", choices = c("None",headers), selected = "Sequence"),
+               selectInput(inputId = "sequence_selection",label = "Sequence *", choices = c("None",headers), selected = "Sequence"),
                bsPopover(id = "sequence_selection", "Sequence", "Please select the column which contains the sequences associated with the positions in the array", placement = "right")
                ),
         column(width = 6,
-               selectInput(inputId = "probe_selection",label = "Probe", choices = c("None",headers), selected = "Probe"),
+               selectInput(inputId = "probe_selection",label = "Probe *", choices = c("None",headers), selected = "Probe"),
                bsPopover(id = "probe_selection", "Name of probe", "Please select the name of the column which containes the name of the probe used", placement = "right")
                )
       ),
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "signal_selection",label = "Signal/Modified", choices = c("None",headers),selected = "Signal"),
+               selectInput(inputId = "signal_selection",label = "Signal/Modified *", choices = c("None",headers),selected = "Signal"),
                bsPopover(id = "signal_selection", "Signal", "Please select the column wich contains the signal or quantititative data for the positions in the array", placement = "right")
                ),
         column(width = 6,
@@ -175,7 +175,8 @@ output$column_selection <- renderUI({
                selectInput(inputId = "column_location",label = "Column of Spot", choices = c("None",headers), selected = "Column"),
                bsPopover(id = "column_location", "Column of Spot","Column location of the spot in the array. This is necessary for visualizing an accurate digital representation of the array.", placement = "right")
         )
-      )
+      ),
+      p("* Required Fields")
 
 
 
