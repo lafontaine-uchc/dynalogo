@@ -5,9 +5,9 @@ output$thresholding_slider <- renderUI({
                     min = 0,max = 100,value =0,
                     animate = animationOptions(interval = 1000, loop = TRUE,
                                                playButton = "Play", pauseButton = "Pause"))
-    } else{
+    } else if(input$thresholding_type == "Z_Score"){
         MinMaxColumnSliderUI("zthreshold")
-    }
+    } else{}
 })
 callModule(MinMaxColumnSlider,
            "zthreshold",
