@@ -8,10 +8,12 @@ seq_processing <- function(temp_data,seq_len){
     temp_data    
 }
 logo_data<-reactive({
-    seq_processing(filtered_data(),input$sequence_length)
+    #seq_processing(filtered_data(),input$sequence_length)
+    filtered_data()
 })
 background_data <- reactive({
-    seq_processing(get_avgs(),input$sequence_length)
+    #seq_processing(get_avgs(),input$sequence_length)
+    get_avgs()
 })
 background_rates<- reactive({
 #    background_data()$Sequence
