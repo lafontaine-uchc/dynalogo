@@ -7,6 +7,25 @@ seq_processing <- function(temp_data,seq_len){
     temp_data<-temp_data[temp_data$length==input$sequence_length,]
     temp_data    
 }
+add_missing_AA_rows<- function(PSSM){
+    character_library <- AA_STANDARD
+    missing_rows_index <- !(character_library %in% rownames(PSSM))
+    if (sum(missing_rows_index >0)){
+        missing_row_characters<-character_library[missing_rows_index]
+        missing_rows = matrix(rep(0, length(missing_row_characters) * ncol(PSSM)),
+                              nrow=length(missing_row_characters),
+                              dimnames = list(missing_row_characters))
+        PSSM<-rbind(PSSM, missing_rows)
+        PSSM<-PSSM[order(row.names(PSSM)), ]
+    }
+    PSSM
+}
+
+remove_non_AA_rows <- function(PSSM){
+    character_library <- AA_STANDARD
+    PSSM<-PSSM[character_library,]
+    PSSM
+}
 logo_data<-reactive({
     #seq_processing(filtered_data(),input$sequence_length)
     filtered_data()
@@ -19,24 +38,16 @@ background_rates<- reactive({
 #    background_data()$Sequence
     string_set <- Biostrings::AAStringSet(background_data()$Sequence)
     PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
+    PSSM <- add_missing_AA_rows(PSSM)
+    PSSM <- remove_non_AA_rows(PSSM)
 })
 foreground_rates<- reactive({
     #    background_data()$Sequence
     string_set <- Biostrings::AAStringSet(logo_data()$Sequence)
     PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
+    PSSM <- add_missing_AA_rows(PSSM)
+    PSSM <- remove_non_AA_rows(PSSM)
 })
-add_zero_rows_to_PSSM<- function(PSSM1,PSSM2){
-    while (length(rownames(PSSM1)) < length(rownames(PSSM2))){
-        missing_row_index <- rownames(PSSM2) %in% rownames(PSSM1)
-        missing_row_name <- rownames(PSSM2)[!missing_row_index][1]
-        PSSM1 <-rbind(PSSM1, rep(0, dim(PSSM1)[2]))
-        rownames(PSSM1)[rownames(PSSM1) == ""]<- missing_row_name
-        PSSM1<-as.data.frame(PSSM1)
-        PSSM1<-PSSM1[order(row.names(PSSM1)), ]
-        PSSM1<-as.matrix(PSSM1)
-    }
-    PSSM1
-}
 
 gglogo<-reactive({
     if (input$logo_type == "EDLOGO"){
@@ -44,9 +55,7 @@ gglogo<-reactive({
             need(nrow(logo_data()) > 8, "EDLogo requires more than 8 samples")
         )
         if(input$custom_background == TRUE){
-            fr <-add_zero_rows_to_PSSM(foreground_rates(), background_rates())
-            br <-add_zero_rows_to_PSSM(background_rates(), foreground_rates())
-            logo = Logolas::logomaker(fr,bg = br, type = "EDLogo")
+            logo = Logolas::logomaker(foreground_rates(),bg = background_rates(), type = "EDLogo")
         }else{
             logo = Logolas::logomaker(foreground_rates(), type = "EDLogo")
         }
