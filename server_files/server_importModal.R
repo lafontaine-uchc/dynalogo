@@ -64,6 +64,7 @@ dataModal <- function(failed = FALSE) {
                 dataTableOutput("key")
             )
         ),
+        h3(textOutput(outputId = "warning_output")),
 
         div(tags$b("Please import a dataset before continuing", style = "color: red;")),
         
@@ -96,6 +97,11 @@ observeEvent(input$cancel, {
 observeEvent(input$ok, {
     # Check that data object exists before exiting
     req(generalized_data())
+    req(input$spot_id_selection != "None",
+        (input$sequence_selection != "None"),
+        (input$probe_selection != "None"),
+        (input$signal_selection != "None")
+    )
     removeModal()
     shinyjs::show(id = "headerbar")
 })
@@ -122,6 +128,19 @@ imported_key<-reactive({
     }
     else {
         return(df)
+    }
+})
+output$warning_output <- renderText({warning_text()})
+warning_text<-reactive({
+    req(generalized_data())
+    if (input$spot_id_selection == "None"){
+        "Please Make a selection for the Name Dropdown"
+    } else if (input$sequence_selection== "None"){
+        "Please Make a selection for the Sequence Dropdown"
+    } else if (input$probe_selection == "None"){
+        "Please Make a selection for the Probe Dropdown"
+    } else if (input$signal_selection == "None"){
+        "Please Make a selection for the Signal Dropdown"
     }
 })
 output$contents <- renderDataTable(
