@@ -52,7 +52,7 @@ dataModal <- function(failed = FALSE) {
         #span('(Try the name of a valid data object like "mtcars", ',
         #    'then a name of a non-existent object like "abc")'),
         if (failed)
-            div(tags$b("Invalid name of data object", style = "color: red;")),
+            div(tags$b("Please import a dataset before continuing", style = "color: red;")),
         
         footer = tagList(
             actionButton("cancel","Cancel"),
@@ -79,15 +79,14 @@ observeEvent(input$cancel, {
         show("Description2")
     }
 })
+
 observeEvent(input$ok, {
-    # Check that data object exists using variable from server_uiDisplayLoadingControl.R
-    if (rv$setupComplete==TRUE) {
-        removeModal()
-        shinyjs::show(id = "headerbar")
-    } else {
-        showModal(dataModal(failed = TRUE))
-    }
+    # Check that data object exists before exiting
+    req(generalized_data())
+    removeModal()
+    shinyjs::show(id = "headerbar")
 })
+
 
 imported_data<-reactive({
     req(input$file1)
