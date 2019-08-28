@@ -147,7 +147,11 @@ output$column_selection <- renderUI({
                bsPopover(id = "spot_id_selection",
                          "Name of spots",
                          paste("Please select the column name which contains the",
-                               "names for the positions on the array"),
+                               "names for the positions on the array. It should",
+                               "identify one of the components in the protein",
+                               "protein interaction being studied. This label",
+                               "should be unique, and contain no duplicates within",
+                               "the same experiment. "),
                          placement = "right")
                ),
         column(width = 6,
@@ -159,7 +163,11 @@ output$column_selection <- renderUI({
                          "Array Configuration",
                          paste("For datasets with multiple array configurations.",
                                "Please select the name of the column which",
-                               "contains the type of array."),
+                               "contains the type of array. Often in binding",
+                               "array experiments multiple arrays are used to increase",
+                               "the amount of peptides to be tested with a single",
+                               "probe. For other types of experiments this may",
+                               "not be needed."),
                          placement = "right")
                )
       ),
@@ -172,7 +180,9 @@ output$column_selection <- renderUI({
                bsPopover(id = "sequence_selection",
                          "Sequence",
                          paste("Please select the column which contains the",
-                               "sequences associated with the positions in the array"),
+                               "sequences associated the Name column identified earlier.",
+                               "Similar to the Name column, this should be unique",
+                               "within the experiment"),
                          placement = "right")
                ),
         column(width = 6,
@@ -183,7 +193,9 @@ output$column_selection <- renderUI({
                bsPopover(id = "probe_selection",
                          "Name of probe",
                          paste("Please select the name of the column which contains",
-                               "the name of the probe used"),
+                               "the name of the probe used. For other types of",
+                               "experiments this should be the identifier for the",
+                               "other component in the protein protein interaction"),
                          placement = "right")
                )
       ),
@@ -195,8 +207,12 @@ output$column_selection <- renderUI({
                            selected = "Signal"),
                bsPopover(id = "signal_selection",
                          "Signal",
-                         paste("Please select the column wich contains the signal",
-                               "or quantititative data for the positions in the array"),
+                         paste("Please select the column which contains the signal",
+                               "or primary quantititative data for the positions in the array.",
+                               "This should represent the strenth of the protein",
+                               "protein interaction. This could refer to a modified",
+                               "state when studying post translational modifications",
+                               "and their effect on binding. "),
                          placement = "right")
                ),
         column(width = 6,
@@ -208,7 +224,11 @@ output$column_selection <- renderUI({
                          "Unmodified/Background",
                          paste("This should be the second of the paired measurements",
                                "which corresponds most with the background or resting",
-                               "state of the system."),
+                               "state of the system. This could refer to an unmodified",
+                               "state when studying post translational modifications",
+                               "and their effect on binding. This could also be used",
+                               "to represent the background from the image used for",
+                               "signal quantification."),
                          placement = "right")
                )
       ),
@@ -223,7 +243,9 @@ output$column_selection <- renderUI({
                          paste("If data set contains multiple experiments for a",
                                "given probe-array combination, please select the",
                                "column name which contains the identifier for",
-                               "these experiments."),
+                               "these experiments. For binding array experiments,",
+                               "the experiment can refer to a specific incubation",
+                               "or imaging run with an array or set of arrays."),
                          placement = "right")
         ),
         column(width = 6,
@@ -235,7 +257,14 @@ output$column_selection <- renderUI({
                          "replicate_selection",
                          paste("If your dataset contains replicates within",
                                "experiments. Please select the name of the column",
-                               "which containes the identifiers for these replicates."),
+                               "which containes the identifiers for these replicates.",
+                               "Often binding arrays can contain duplicates of the",
+                               "array within a slide. This column can be used",
+                               "to distinguish these or any other type of replicates",
+                               "within the experiment. For an experiment where the",
+                               "left and right sides of the slide are replicates",
+                               "this column would contain the values left or right",
+                               "to distinguish these."),
                          placement = "right")
                )
       ),
@@ -249,7 +278,7 @@ output$column_selection <- renderUI({
                          "Row of Spot",
                          paste("Row location of the spot in the array. This is",
                                "necessary for visualizing an accurate digital",
-                               "representation of the array."),
+                               "representation of the array. "),
                          placement = "right")
         ),
         column(width = 6,
