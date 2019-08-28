@@ -7,16 +7,25 @@ dataModal <- function(failed = FALSE) {
         ),
         sidebarLayout(
             sidebarPanel(
-                fileInput("file1", "Choose Data File(s)",
+                fileInput("file1",
+                          "Choose Data File(s)",
                           multiple = TRUE,
                           accept = c("text/csv",
                                      "text/comma-separated-values,text/plain",
                                      ".csv")),
-                bsPopover(id = "file1", "Import Dataset", "Import Dataset as one or multiple text files", placement = "right"),
+                bsPopover(id = "file1",
+                          "Import Dataset",
+                          "Import Dataset as one or multiple text files",
+                          placement = "right"),
                 
                 # Input: Checkbox if file has header ----
-                checkboxInput("header", "Header", TRUE),
-                bsPopover(id = "header", "Header: Yes or No", "If the first row of the files contains column names, select this option", placement = "right"),
+                checkboxInput("header",
+                              "Header",
+                              TRUE),
+                bsPopover(id = "header",
+                          "Header: Yes or No",
+                          "If the first row of the files contains column names, select this option",
+                          placement = "right"),
                 
                 # Input: Select separator ----
                 radioButtons("sep", "Separator",
@@ -24,7 +33,10 @@ dataModal <- function(failed = FALSE) {
                                          Semicolon = ";",
                                          Tab = "\t"),
                              selected = "\t"),
-                bsPopover(id = "sep", "Separator", "Are the data entries in the file separated by commas, semicolons or tabs", placement = "right"),
+                bsPopover(id = "sep",
+                          "Separator",
+                          "Are the data entries in the file separated by commas, semicolons or tabs",
+                          placement = "right"),
                 
                 # Input: Select quotes ----
                 radioButtons("quote", "Quote",
@@ -32,7 +44,10 @@ dataModal <- function(failed = FALSE) {
                                          "Double Quote" = '"',
                                          "Single Quote" = "'"),
                              selected = '"'),
-                bsPopover(id = "quote", "Quote Type","Are the data entries surrounded by single or double quotes", placement = "right"),
+                bsPopover(id = "quote",
+                          "Quote Type",
+                          "Are the data entries surrounded by single or double quotes",
+                          placement = "right"),
                 
           
                 # Horizontal line ----
@@ -125,52 +140,129 @@ output$column_selection <- renderUI({
     verticalLayout(
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "spot_id_selection",label = "Name *", choices = c("None",headers), selected = "Name"),
-               bsPopover(id = "spot_id_selection", "Name of spots","Please select the column name which contains the names for the positions on the array", placement = "right")
+               selectInput(inputId = "spot_id_selection",
+                           label = "Name *",
+                           choices = c("None",headers),
+                           selected = "Name"),
+               bsPopover(id = "spot_id_selection",
+                         "Name of spots",
+                         paste("Please select the column name which contains the",
+                               "names for the positions on the array"),
+                         placement = "right")
                ),
         column(width = 6,
-               selectInput(inputId = "array_selection",label = "Slide Template", choices = c("None",headers), selected = "Slide_template"),
-               bsPopover(id = "array_selection", "Array Configuration","For datasets with multiple array configurations. Please select the name of the column which containes the type of array.", placement = "right")
+               selectInput(inputId = "array_selection",
+                           label = "Slide Template",
+                           choices = c("None",headers),
+                           selected = "Slide_template"),
+               bsPopover(id = "array_selection",
+                         "Array Configuration",
+                         paste("For datasets with multiple array configurations.",
+                               "Please select the name of the column which",
+                               "contains the type of array."),
+                         placement = "right")
                )
       ),
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "sequence_selection",label = "Sequence *", choices = c("None",headers), selected = "Sequence"),
-               bsPopover(id = "sequence_selection", "Sequence", "Please select the column which contains the sequences associated with the positions in the array", placement = "right")
+               selectInput(inputId = "sequence_selection",
+                           label = "Sequence *",
+                           choices = c("None",headers),
+                           selected = "Sequence"),
+               bsPopover(id = "sequence_selection",
+                         "Sequence",
+                         paste("Please select the column which contains the",
+                               "sequences associated with the positions in the array"),
+                         placement = "right")
                ),
         column(width = 6,
-               selectInput(inputId = "probe_selection",label = "Probe *", choices = c("None",headers), selected = "Probe"),
-               bsPopover(id = "probe_selection", "Name of probe", "Please select the name of the column which containes the name of the probe used", placement = "right")
+               selectInput(inputId = "probe_selection",
+                           label = "Probe *",
+                           choices = c("None",headers),
+                           selected = "Probe"),
+               bsPopover(id = "probe_selection",
+                         "Name of probe",
+                         paste("Please select the name of the column which contains",
+                               "the name of the probe used"),
+                         placement = "right")
                )
       ),
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "signal_selection",label = "Signal/Modified *", choices = c("None",headers),selected = "Signal"),
-               bsPopover(id = "signal_selection", "Signal", "Please select the column wich contains the signal or quantititative data for the positions in the array", placement = "right")
+               selectInput(inputId = "signal_selection",
+                           label = "Signal/Modified *",
+                           choices = c("None",headers),
+                           selected = "Signal"),
+               bsPopover(id = "signal_selection",
+                         "Signal",
+                         paste("Please select the column wich contains the signal",
+                               "or quantititative data for the positions in the array"),
+                         placement = "right")
                ),
         column(width = 6,
-               selectInput(inputId = "background_selection",label = "Background/Unmodified", choices = c("None",headers), selected = "Background"),
-               bsPopover(id = "background_selection", "Unmodified/Background","This should be the second of the paired measurments which corresponds most with the background or resting state of the system.", placement = "right")
+               selectInput(inputId = "background_selection",
+                           label = "Background/Unmodified",
+                           choices = c("None",headers),
+                           selected = "Background"),
+               bsPopover(id = "background_selection",
+                         "Unmodified/Background",
+                         paste("This should be the second of the paired measurements",
+                               "which corresponds most with the background or resting",
+                               "state of the system."),
+                         placement = "right")
                )
       ),
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "experiment_selection",label = "Experiment #", choices = c("None",headers), selected = "Experiment_Number"),
-               bsPopover(id = "experiment_selection", "Experiment","If data set contains multiple experiments for a given probe-array combination, please select the column name which contains the identifier for these experiments.", placement = "right")
+               selectInput(inputId = "experiment_selection",
+                           label = "Experiment #",
+                           choices = c("None",headers),
+                           selected = "Experiment_Number"),
+               bsPopover(id = "experiment_selection",
+                         "Experiment",
+                         paste("If data set contains multiple experiments for a",
+                               "given probe-array combination, please select the",
+                               "column name which contains the identifier for",
+                               "these experiments."),
+                         placement = "right")
         ),
         column(width = 6,
-               selectInput(inputId = "intra_experiment_replicates",label = "Slide position", choices = c("None",headers), selected = "Slide_position"),
-               bsPopover(id = "intra_experiment_replicates", "replicate_selection","If your dataset contains replicates within experiments. Please select the name of the column which containes the identifiers for these replicates.", placement = "right")
+               selectInput(inputId = "intra_experiment_replicates",
+                           label = "Slide position",
+                           choices = c("None",headers),
+                           selected = "Slide_position"),
+               bsPopover(id = "intra_experiment_replicates",
+                         "replicate_selection",
+                         paste("If your dataset contains replicates within",
+                               "experiments. Please select the name of the column",
+                               "which containes the identifiers for these replicates."),
+                         placement = "right")
                )
       ),
       fluidRow(
         column(width = 6,
-               selectInput(inputId = "row_location",label = "Row of Spot", choices = c("None",headers), selected = "Row"),
-               bsPopover(id = "row_location", "Row of Spot","Row location of the spot in the array. This is necessary for visualizing an accurate digital representation of the array.", placement = "right")
+               selectInput(inputId = "row_location",
+                           label = "Row of Spot", 
+                           choices = c("None",headers),
+                           selected = "Row"),
+               bsPopover(id = "row_location",
+                         "Row of Spot",
+                         paste("Row location of the spot in the array. This is",
+                               "necessary for visualizing an accurate digital",
+                               "representation of the array."),
+                         placement = "right")
         ),
         column(width = 6,
-               selectInput(inputId = "column_location",label = "Column of Spot", choices = c("None",headers), selected = "Column"),
-               bsPopover(id = "column_location", "Column of Spot","Column location of the spot in the array. This is necessary for visualizing an accurate digital representation of the array.", placement = "right")
+               selectInput(inputId = "column_location",
+                           label = "Column of Spot",
+                           choices = c("None",headers),
+                           selected = "Column"),
+               bsPopover(id = "column_location",
+                         "Column of Spot",
+                         paste("Column location of the spot in the array. This", 
+                               "is necessary for visualizing an accurate digital",
+                               "representation of the array."),
+                         placement = "right")
         )
       ),
       p("* Required Fields")
