@@ -49,10 +49,8 @@ dataModal <- function(failed = FALSE) {
                 dataTableOutput("key")
             )
         ),
-        #span('(Try the name of a valid data object like "mtcars", ',
-        #    'then a name of a non-existent object like "abc")'),
-        if (failed)
-            div(tags$b("Please import a dataset before continuing", style = "color: red;")),
+
+        div(tags$b("Please import a dataset before continuing", style = "color: red;")),
         
         footer = tagList(
             actionButton("cancel","Cancel"),
