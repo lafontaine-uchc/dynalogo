@@ -62,7 +62,14 @@ gglogo<-reactive({
     } 
     if (input$logo_type == "ggseqlogo"){
         logo = ggseqlogo(foreground_rates(),seq_type='aa')
-    } 
+    }
+    if (input$logo_type == "Logo"){
+        if(input$custom_background == TRUE){
+            logo = Logolas::logomaker(foreground_rates(),bg = background_rates(), type = "Logo")
+        }else{
+            logo = Logolas::logomaker(foreground_rates(), type = "Logo")
+        }
+    }
     logo
 })
 output$test_logo<- renderPlot({
