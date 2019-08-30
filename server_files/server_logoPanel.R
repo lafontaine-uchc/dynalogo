@@ -52,7 +52,7 @@ KL_logo_heights<- reactive({
     if(input$custom_background){
         w <- log2(foreground_rates()/background_rates())
     }else{
-        gen_bg = matrix(rep(1/20, nrow(PSSM) * ncol(PSSM)), nrow=nrow(PSSM), dimnames = list(rownames(PSSM)))
+        gen_bg = matrix(rep(1/20, nrow(foreground_rates()) * ncol(foreground_rates())), nrow=nrow(foreground_rates()), dimnames = list(rownames(foreground_rates())))
         w <- log2(foreground_rates()/gen_bg)
     }
 
