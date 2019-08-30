@@ -48,7 +48,21 @@ foreground_rates<- reactive({
     PSSM <- add_missing_AA_rows(PSSM)
     PSSM <- remove_non_AA_rows(PSSM)
 })
+KL_logo_heights<- reactive({
+    if(input$custom_background){
+        w <- log2(foreground_rates()/background_rates())
+    }else{
+        gen_bg = matrix(rep(1/20, nrow(PSSM) * ncol(PSSM)), nrow=nrow(PSSM), dimnames = list(rownames(PSSM)))
+        w <- log2(foreground_rates()/gen_bg)
+    }
 
+    w[foreground_rates()==0] = -99.999
+    pw <- foreground_rates()*w
+    bh<-apply(pw, 2, sum)
+    bbh<-matrix(bh,nrow=20,ncol=length(bh),byrow=TRUE)
+    height = bbh*foreground_rates()*sign(w)
+    height
+})
 gglogo<-reactive({
     if (input$logo_type == "EDLOGO"){
         validate(
@@ -69,6 +83,9 @@ gglogo<-reactive({
         }else{
             logo = Logolas::logomaker(foreground_rates(), type = "Logo")
         }
+    }
+    if (input$logo_type == "KLLogo"){
+        logo = ggseqlogo(KL_logo_heights(), method='custom', seq_type='aa') + ylab('Bits')
     }
     logo
 })
