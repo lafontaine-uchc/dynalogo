@@ -65,8 +65,6 @@ dataModal <- function(failed = FALSE) {
             )
         ),
         h3(textOutput(outputId = "warning_output")),
-
-        div(tags$b("Please import a dataset before continuing", style = "color: red;")),
         
         footer = tagList(
             actionButton("cancel","Cancel"),
@@ -199,9 +197,11 @@ output$column_selection <- renderUI({
                bsPopover(id = "sequence_selection",
                          "Sequence",
                          paste("Please select the column which contains the",
-                               "sequences associated the Name column identified earlier.",
+                               "sequences.",
                                "Similar to the Name column, this should be unique",
-                               "within the experiment"),
+                               "within the experiment. These should be aligned and",
+                               "of the same length. Shorter sequences can be padded",
+                               " with the X character. See manual for more details"),
                          placement = "right")
                ),
         column(width = 6,
