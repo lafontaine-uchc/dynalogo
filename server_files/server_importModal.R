@@ -51,7 +51,8 @@ dataModal <- function(failed = FALSE) {
                 
           
                 # Horizontal line ----
-                tags$hr()
+                tags$hr(),
+                h5(textOutput(outputId = "warning_output"),style = "color: red;")
                 
                 #uiOutput("column_selection")
             ),
@@ -64,7 +65,6 @@ dataModal <- function(failed = FALSE) {
                 dataTableOutput("key")
             )
         ),
-        h3(textOutput(outputId = "warning_output")),
         
         footer = tagList(
             actionButton("cancel","Cancel"),
@@ -131,15 +131,20 @@ imported_key<-reactive({
 output$warning_output <- renderText({warning_text()})
 warning_text<-reactive({
     req(generalized_data())
+    txt<-c()
     if (input$spot_id_selection == "None"){
-        "Please Make a selection for the Name Dropdown"
-    } else if (input$sequence_selection== "None"){
-        "Please Make a selection for the Sequence Dropdown"
-    } else if (input$probe_selection == "None"){
-        "Please Make a selection for the Probe Dropdown"
-    } else if (input$signal_selection == "None"){
-        "Please Make a selection for the Signal Dropdown"
+        txt <-c(txt,"Missing Name")
     }
+    if (input$sequence_selection== "None"){
+        txt <-c(txt,"Missing Sequence")
+    }
+    if (input$probe_selection == "None"){
+        txt <-c(txt,"Missing Probe")
+    }
+    if (input$signal_selection == "None"){
+        txt <-c(txt,"Missing Signal")
+    }
+    paste(txt, collapse="\n")
 })
 output$contents <- renderDataTable(
     imported_data(),
