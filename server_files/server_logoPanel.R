@@ -20,6 +20,10 @@ add_missing_AA_rows<- function(PSSM){
     }
     PSSM
 }
+create_PPM<- function(PFM){
+    PPM<-apply(PFM,2, function(pos_count){pos_count/sum(pos_count)})
+    PPM
+}
 
 remove_non_AA_rows <- function(PSSM){
     character_library <- AA_STANDARD
@@ -37,16 +41,18 @@ background_data <- reactive({
 background_rates<- reactive({
 #    background_data()$Sequence
     string_set <- Biostrings::AAStringSet(background_data()$Sequence)
-    PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
+    PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = FALSE)
     PSSM <- add_missing_AA_rows(PSSM)
     PSSM <- remove_non_AA_rows(PSSM)
+    PSSM <- create_PPM(PSSM)
 })
 foreground_rates<- reactive({
     #    background_data()$Sequence
     string_set <- Biostrings::AAStringSet(logo_data()$Sequence)
-    PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = TRUE)
+    PSSM <- Biostrings::consensusMatrix(string_set, baseOnly=TRUE, as.prob = FALSE)
     PSSM <- add_missing_AA_rows(PSSM)
     PSSM <- remove_non_AA_rows(PSSM)
+    PSSM <- create_PPM(PSSM)
 })
 KL_logo_heights<- reactive({
     if(input$custom_background){
