@@ -4,7 +4,7 @@ downloadFigureUI<- function(id, filename = "no_filename", download_label = "no_l
     tagList(
         splitLayout(
             textInput(ns("downloadFileName"), "Filename: ", filename ),
-            pickerInput(inputId = ns("FileType"),label = "File Type",choices = c(".svg",".png"),selected = ".svg"),
+            pickerInput(inputId = ns("FileType"),label = "File Type",choices = c(".svg",".png",".pdf",".eps"),selected = ".svg"),
             downloadButton(ns("download"), download_label),
             cellArgs = list (style = "overflow:visible")
         ),
