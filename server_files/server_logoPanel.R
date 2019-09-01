@@ -91,7 +91,10 @@ gglogo<-reactive({
         }
     }
     if (input$logo_type == "KLLogo"){
-        logo = ggseqlogo(KL_logo_heights(), method='custom', seq_type='aa') + ylab('Bits')
+        logo = ggseqlogo(KL_logo_heights(), method='custom', seq_type='aa') + 
+            #ylab('Bits') +
+            scale_y_continuous(name="Bits", breaks = c(-4,-3,-2,-1,0,1,2,3,4), limits = c(-4.5,4.5))
+            #ylim(-4.5,4.5)
     }
     logo
 })
