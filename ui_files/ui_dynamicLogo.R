@@ -11,7 +11,7 @@ conditionalPanel(condition = "input.logo_plot_toggle",
                          )
                      ),
                      mainPanel(
-                         imageOutput(outputId = "test_logo")
+                         imageOutput(outputId = "test_logo",height = "700px")
                      )
                  )
                  
