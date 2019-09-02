@@ -158,8 +158,8 @@ filtered_data<- reactive({
 })
 
 data_sorted<-reactive({
-    #dplyr::arrange(filtered_data(),Signal)
-    
- #   browser()
+    validate(
+        need(nrow(filtered_data()) > 0, "There are no samples left in the dataset.")
+    )
     filtered_data()
 })

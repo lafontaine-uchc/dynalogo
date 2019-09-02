@@ -32,7 +32,7 @@ remove_non_AA_rows <- function(PSSM){
 }
 logo_data<-reactive({
     #seq_processing(filtered_data(),input$sequence_length)
-    filtered_data()
+    data_sorted()
 })
 background_data <- reactive({
     #seq_processing(get_avgs(),input$sequence_length)
