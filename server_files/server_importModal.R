@@ -163,7 +163,7 @@ output$column_selection <- renderUI({
       fluidRow(
         column(width = 6,
                selectInput(inputId = "spot_id_selection",
-                           label = "Name *",
+                           label = shiny::HTML("<p><span style='color: red'>Name *</span></p>"),
                            choices = c("None",headers),
                            selected = "Name"),
                bsPopover(id = "spot_id_selection",
@@ -196,7 +196,7 @@ output$column_selection <- renderUI({
       fluidRow(
         column(width = 6,
                selectInput(inputId = "sequence_selection",
-                           label = "Sequence *",
+                           label = shiny::HTML("<p><span style='color: red'>Sequence *</span></p>"),
                            choices = c("None",headers),
                            selected = "Sequence"),
                bsPopover(id = "sequence_selection",
@@ -228,7 +228,7 @@ output$column_selection <- renderUI({
       fluidRow(
         column(width = 6,
                selectInput(inputId = "signal_selection",
-                           label = "Signal/Modified *",
+                           label = shiny::HTML("<p><span style='color: red'>Signal/Modified *</span></p>"),
                            choices = c("None",headers),
                            selected = "Signal"),
                bsPopover(id = "signal_selection",
@@ -261,7 +261,7 @@ output$column_selection <- renderUI({
       fluidRow(
           column(width = 6,
                  selectInput(inputId = "probe_selection",
-                             label = "Probe *",
+                             label = shiny::HTML("<p><span style='color: red'>Probe *</span></p>"),
                              choices = c("None",headers),
                              selected = "Probe"),
                  bsPopover(id = "probe_selection",
@@ -319,7 +319,7 @@ output$column_selection <- renderUI({
                          placement = "right")
         )
       ),
-      p("* Required Fields")
+      shiny::HTML("<b><span style='color: red'>Required Fields *</span></b>")
 
 
 
