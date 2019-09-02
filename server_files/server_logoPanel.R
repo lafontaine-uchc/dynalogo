@@ -83,32 +83,8 @@ KL_logo_heights<- reactive({
     height
 })
 gglogo<-reactive({
-    if (input$logo_type == "EDLOGO"){
-        validate(
-            need(nrow(logo_data()) > 8, "EDLogo requires more than 8 samples")
-        )
-        if(input$custom_background == TRUE){
-            logo = Logolas::logomaker(foreground_rates(),bg = background_rates(), type = "EDLogo")
-        }else{
-            logo = Logolas::logomaker(foreground_rates(), type = "EDLogo")
-        }
-    } 
-    if (input$logo_type == "ggseqlogo"){
-        logo = ggseqlogo(foreground_rates(),seq_type='aa')
-    }
-    if (input$logo_type == "Logo"){
-        if(input$custom_background == TRUE){
-            logo = Logolas::logomaker(foreground_rates(),bg = background_rates(), type = "Logo")
-        }else{
-            logo = Logolas::logomaker(foreground_rates(), type = "Logo")
-        }
-    }
-    if (input$logo_type == "KLLogo"){
-        logo = ggseqlogo(KL_logo_heights(), method='custom', seq_type='aa') + 
-            #ylab('Bits') +
-            scale_y_continuous(name="Bits", breaks = c(-4,-3,-2,-1,0,1,2,3,4), limits = c(-5,5))
-            #ylim(-4.5,4.5)
-    }
+    logo = ggseqlogo(KL_logo_heights(), method='custom', seq_type='aa') + 
+        scale_y_continuous(name="Bits", breaks = c(-4,-3,-2,-1,0,1,2,3,4), limits = c(-5,5))
     logo
 })
 output$test_logo<- renderPlot({
