@@ -66,12 +66,16 @@ custom_filter<-reactive({
 
 
 transformation_for_skew<-reactive({
+
     temp<-custom_filter()
     if (input$right_skewed_transform == "Square Root"){
         temp %>% mutate(Signal = Signal^(1/2))
     } else if(input$right_skewed_transform == "Cube Root"){
         temp %>% mutate(Signal = Signal^(1/3))
     } else if(input$right_skewed_transform == "Log2"){
+        validate(
+            need(custom_filter() > 0, "Your data contains negative values which will result in imaginary numbers when log transformed.")
+        )
         temp %>% mutate(Signal = log2(Signal))
     } else if(input$right_skewed_transform == "Log10"){
         temp %>% mutate(Signal = log10(Signal))
