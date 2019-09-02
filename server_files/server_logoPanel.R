@@ -55,11 +55,24 @@ foreground_rates<- reactive({
     PSSM <- create_PPM(PSSM)
 })
 KL_logo_heights<- reactive({
-    if(input$custom_background){
+    if(input$custom_background == "Experimental"){
         w <- log2(foreground_rates()/background_rates())
-    }else{
-        gen_bg = matrix(rep(1/20, nrow(foreground_rates()) * ncol(foreground_rates())), nrow=nrow(foreground_rates()), dimnames = list(rownames(foreground_rates())))
+    }
+    if(input$custom_background == "Natural Occurrance"){
+        values<-c(0.0755236,0.0515842,0.0453131,0.0530344,0.0169811,0.0402483,
+                  0.0632002,0.0684442,0.0224067,0.0573156,0.0934327,0.0594192,
+                  0.0235696,0.0407819,0.0492775,0.0722465,0.0574747,0.0125173,
+                  0.0319968,0.0652477)
+        nams<-c("A","R","N","D","C","Q","E","G","H","I","L","K","M","F","P","S","T","W","Y","V")
+        gen_bg<-matrix(rep(x = values,ncol(foreground_rates())),nrow = 20,dimnames = list(nams))
         w <- log2(foreground_rates()/gen_bg)
+    }
+    if(input$custom_background == "Even Distribution"){
+        gen_bg2 = matrix(rep(1/20,
+                        nrow(foreground_rates()) * ncol(foreground_rates())),
+                        nrow=nrow(foreground_rates()),
+                        dimnames = list(rownames(foreground_rates())))
+        w <- log2(foreground_rates()/gen_bg2)
     }
 
     w[foreground_rates()==0] = -99.999
@@ -93,7 +106,7 @@ gglogo<-reactive({
     if (input$logo_type == "KLLogo"){
         logo = ggseqlogo(KL_logo_heights(), method='custom', seq_type='aa') + 
             #ylab('Bits') +
-            scale_y_continuous(name="Bits", breaks = c(-4,-3,-2,-1,0,1,2,3,4), limits = c(-4.5,4.5))
+            scale_y_continuous(name="Bits", breaks = c(-4,-3,-2,-1,0,1,2,3,4), limits = c(-5,5))
             #ylim(-4.5,4.5)
     }
     logo
