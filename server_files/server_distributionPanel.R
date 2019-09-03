@@ -30,12 +30,19 @@ output$column_selection_ui <- renderUI({
     pickerInput("column_selection", "Select Column Containing Replicate Data", choices = append(columnNames,"none"), selected = "none")
 })
 
+experiment_choices<-reactive({
+    choice<-slide_filter()%>%select(input$column_selection)%>%distinct()
+    choice
+})
 output$choices_in_column_ui<- renderUI({
     req(input$column_selection)
-    if (input$column_selection != "none"){
-        choice<-slide_filter()%>%select(input$column_selection)%>%distinct()
-        pickerInput("choices_in_column", "Select values for x and y axis", choices =choice,selected = choice, multiple = T)
-    }
+    req(input$column_selection != "none")
+    validate(
+        need(
+            dim(experiment_choices())[1] > 1, "This data contains less than two groups to compare."
+        )
+    )
+    pickerInput("choices_in_column", "Select values for x and y axis", choices =experiment_choices(), multiple = T)
 })
 output$boxplot <- renderPlot({
 summary_box_plot()
@@ -66,6 +73,12 @@ output$plotly_boxplot<-renderPlotly({
 
 scatter_data<- reactive({
     req(length(input$choices_in_column)>1)
+    req(input$column_selection != "none")
+    validate(
+        need(
+            dim(experiment_choices())[1] > 1, "This data contains less than two groups to compare."
+        )
+    )
     temp<-as_tibble(boxPlotData())
     column_choice<-sym(input$column_selection)
     temp<-temp%>%select(c(input$column_selection,"Signal","Name"))%>% spread(!!(column_choice),Signal)
@@ -77,19 +90,23 @@ scatter_data_selected<- reactive({
 })
 scatterplot<-reactive({
     req(length(input$choices_in_column)>1)
+    validate(
+        need((length(input$choices_in_column) < 3), "Only two options can be selected.")
+    )
     x_choice<-sym(input$choices_in_column[1])
     y_choice<-sym(input$choices_in_column[2])
     ggplot(data = scatter_data(), aes(x = !!(x_choice), y = !!(y_choice),label = Name)) + geom_point()
 })
 output$scatter<-renderPlotly({
-
     ggplotly(scatterplot())
 })
 callModule(downloadFigure,"scatter",scatterplot)
 output$PCC<-renderText({
     req(length(input$choices_in_column)>1)
+    validate(
+        need((length(input$choices_in_column) < 3), "Only two options can be selected.")
+    )
     temp<-scatter_data_selected()
-    browser()
     temp$Name<-NULL
     p<-cor(temp[1],temp[2],method = "pearson")
     paste("Correlation:", formatC(p, digits = 3, format = "f"))
