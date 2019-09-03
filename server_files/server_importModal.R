@@ -211,7 +211,7 @@ output$column_selection <- renderUI({
                ),
         column(width = 6,
                selectInput(inputId = "experiment_selection",
-                           label = "Experiment #",
+                           label = "Experiment ID",
                            choices = c("None",headers),
                            selected = "Experiment_Number"),
                bsPopover(id = "experiment_selection",
