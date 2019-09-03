@@ -11,7 +11,9 @@ conditionalPanel(condition = "input.distribution_display",
                        ),
                        conditionalPanel(condition = "input.distribution_chart == 'Boxplot'",
                                         radioButtons(inputId = "boxplot_type","Boxplot Type", choices = c("Interactive","Summary"),selected = "Boxplot"),
-                                        downloadButton("downloadBoxplot", "Download Boxplot")
+                                        conditionalPanel(condition = "input.boxplot_type == 'Summary'",
+                                                         downloadButton("downloadBoxplot", "Download Boxplot")
+                                                         )
                        ),
                        conditionalPanel(condition = "input.distribution_chart == 'Scatterplot'",
                                         uiOutput("column_selection_ui"),
