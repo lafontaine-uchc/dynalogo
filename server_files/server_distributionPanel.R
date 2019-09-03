@@ -70,6 +70,11 @@ scatter_data<- reactive({
     column_choice<-sym(input$column_selection)
     temp<-temp%>%select(c(input$column_selection,"Signal","Name"))%>% spread(!!(column_choice),Signal)
     })
+scatter_data_selected<- reactive({
+    temp<-scatter_data()
+    temp<-temp[c(input$choices_in_column[1],input$choices_in_column[2])]
+    temp
+})
 scatterplot<-reactive({
     req(length(input$choices_in_column)>1)
     x_choice<-sym(input$choices_in_column[1])
@@ -83,7 +88,8 @@ output$scatter<-renderPlotly({
 callModule(downloadFigure,"scatter",scatterplot)
 output$PCC<-renderText({
     req(length(input$choices_in_column)>1)
-    temp<-scatter_data()
+    temp<-scatter_data_selected()
+    browser()
     temp$Name<-NULL
     p<-cor(temp[1],temp[2],method = "pearson")
     paste("Correlation:", formatC(p, digits = 3, format = "f"))
