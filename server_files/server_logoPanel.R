@@ -84,6 +84,7 @@ KL_logo_heights<- reactive({
 })
 gglogo<-reactive({
     logo = ggseqlogo(KL_logo_heights(), method='custom', seq_type='aa') + 
+        geom_hline(yintercept=0, linetype = "dashed") +
         scale_y_continuous(name="Bits", breaks = c(-4,-3,-2,-1,0,1,2,3,4), limits = c(-5,5))
     logo
 })
