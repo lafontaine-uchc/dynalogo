@@ -100,6 +100,10 @@ output$columns_keep <- renderUI({
 get_avgs<-reactive({
     #aggregate(Signal~Measurement_spot_number + Name+Sequence+Probe+phosphorylation_state+slide_template,transformation_for_skew(),mean)
     #grouping_column = sym(input$column_to_group_by)
+    validate(
+        need(sum(input$column_to_group_by %in% input$columns_to_keep) == 0,
+             message = 'Duplicate tag in "Select columns to group by" and "Select columns to keep"')
+    )
     temp<-as_tibble(transformation_for_skew())
     if (length(input$column_to_group_by)>0){
         if (length(input$column_to_group_by)>1){
