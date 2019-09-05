@@ -26,20 +26,12 @@ digital_array_data<-reactive({
 })
 
 output$array_sh2_slider <- renderUI({
-    if(exists("input$chosen_SH2s")){
+    req(length(input$chosen_SH2s) >0)
         sliderTextInput(inputId = "array_sh2_display",
                         label = "Select Probe to Display",
                         choices = input$chosen_SH2s,
                         selected = input$chosen_SH2s[1],
                         animate = TRUE)
-    }else{
-        sliderTextInput(inputId = "array_sh2_display",
-                        label = "Select Probe to Display",
-                        choices = "none",
-                        selected = "none",
-                        animate = TRUE)   
-    }
-    
 })  
 output$array_group_slider <- renderUI({
   req(get_avgs())
