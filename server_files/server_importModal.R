@@ -172,7 +172,7 @@ warning_text4<-reactive({
     req(generalized_data())
     letter_matrix <-sapply(generalized_data()$Sequence,strsplit,"")
     if(! all(unlist(letter_matrix) %in% c(AA_STANDARD,"X"))){
-        "Sequences contain non standard AA library characters."
+        "Sequences contain non standard AA library characters"
     }
 })
 output$contents <- renderDataTable(
