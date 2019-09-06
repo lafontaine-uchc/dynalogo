@@ -52,8 +52,9 @@ dataModal <- function(failed = FALSE) {
           
                 # Horizontal line ----
                 tags$hr(),
-                h5(textOutput(outputId = "warning_output"),style = "color: red;")
-                
+                h5(textOutput(outputId = "warning_output"),style = "color: red;"),
+                h5(textOutput(outputId = "warning_output2"), style = "color: red;")
+
                 #uiOutput("column_selection")
             ),
             mainPanel(
@@ -95,10 +96,12 @@ observeEvent(input$cancel, {
 observeEvent(input$ok, {
     # Check that data object exists before exiting
     req(generalized_data())
+    length_sequences<-sapply(generalized_data()$Sequence,nchar)
     req(input$spot_id_selection != "None",
         (input$sequence_selection != "None"),
         (input$probe_selection != "None"),
-        (input$signal_selection != "None")
+        (input$signal_selection != "None"),
+        (all(length_sequences == length_sequences[1]))
     )
     removeModal()
     shinyjs::show(id = "headerbar")
@@ -129,6 +132,7 @@ imported_key<-reactive({
     }
 })
 output$warning_output <- renderText({warning_text()})
+output$warning_output2 <- renderText({warning_text2()})
 warning_text<-reactive({
     req(generalized_data())
     txt<-c()
@@ -145,6 +149,14 @@ warning_text<-reactive({
         txt <-c(txt,"Missing Signal")
     }
     paste(txt, collapse="\n")
+})
+
+warning_text2<-reactive({
+    req(generalized_data())
+    length_sequences <- sapply(generalized_data()$Sequence, nchar)
+    if(! all(length_sequences == length_sequences[1])){
+        "Not all sequences are the same length"
+    }
 })
 output$contents <- renderDataTable(
     imported_data(),
