@@ -53,8 +53,8 @@ dataModal <- function(failed = FALSE) {
                 # Horizontal line ----
                 tags$hr(),
                 h5(textOutput(outputId = "warning_output"),style = "color: red;"),
-                h5(textOutput(outputId = "warning_output2"), style = "color: red;")
-
+                h5(textOutput(outputId = "warning_output2"), style = "color: red;"), 
+                h5(textOutput(outputId = "warning_output3"), style = "color: red;")
                 #uiOutput("column_selection")
             ),
             mainPanel(
@@ -133,6 +133,7 @@ imported_key<-reactive({
 })
 output$warning_output <- renderText({warning_text()})
 output$warning_output2 <- renderText({warning_text2()})
+output$warning_output3 <- renderText({warning_text3()})
 warning_text<-reactive({
     req(generalized_data())
     txt<-c()
@@ -156,6 +157,13 @@ warning_text2<-reactive({
     length_sequences <- sapply(generalized_data()$Sequence, nchar)
     if(! all(length_sequences == length_sequences[1])){
         "Not all sequences are the same length"
+    }
+})
+warning_text3<-reactive({
+    req(generalized_data())
+    upper_sequences <- sapply(generalized_data()$Sequence, toupper)
+    if(! all(upper_sequences == generalized_data()$Sequence)){
+        "Not all sequences are uppercase"
     }
 })
 output$contents <- renderDataTable(
