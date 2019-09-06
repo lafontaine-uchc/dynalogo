@@ -54,7 +54,8 @@ dataModal <- function(failed = FALSE) {
                 tags$hr(),
                 h5(textOutput(outputId = "warning_output"),style = "color: red;"),
                 h5(textOutput(outputId = "warning_output2"), style = "color: red;"), 
-                h5(textOutput(outputId = "warning_output3"), style = "color: red;")
+                h5(textOutput(outputId = "warning_output3"), style = "color: red;"),
+                h5(textOutput(outputId = "warning_output4"), style = "color: red;")
                 #uiOutput("column_selection")
             ),
             mainPanel(
@@ -134,6 +135,7 @@ imported_key<-reactive({
 output$warning_output <- renderText({warning_text()})
 output$warning_output2 <- renderText({warning_text2()})
 output$warning_output3 <- renderText({warning_text3()})
+output$warning_output4 <- renderText({warning_text4()})
 warning_text<-reactive({
     req(generalized_data())
     txt<-c()
@@ -164,6 +166,13 @@ warning_text3<-reactive({
     upper_sequences <- sapply(generalized_data()$Sequence, toupper)
     if(! all(upper_sequences == generalized_data()$Sequence)){
         "Not all sequences are uppercase"
+    }
+})
+warning_text4<-reactive({
+    req(generalized_data())
+    letter_matrix <-sapply(generalized_data()$Sequence,strsplit,"")
+    if(! all(unlist(letter_matrix) %in% c(AA_STANDARD,"X"))){
+        "Sequences contain non standard AA library characters."
     }
 })
 output$contents <- renderDataTable(
