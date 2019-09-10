@@ -59,10 +59,10 @@ KL_logo_heights<- reactive({
         w <- log2(foreground_rates()/background_rates())
     }
     if(input$custom_background == "Natural Occurrance"){
-        values<-c(0.0755236,0.0515842,0.0453131,0.0530344,0.0169811,0.0402483,
-                  0.0632002,0.0684442,0.0224067,0.0573156,0.0934327,0.0594192,
-                  0.0235696,0.0407819,0.0492775,0.0722465,0.0574747,0.0125173,
-                  0.0319968,0.0652477)
+        values<-c(0.0792,0.0579,0.0418,0.0539,0.0182,0.0415,
+                  0.0640,0.0651,0.0244,0.0502,0.0918,0.0552,
+                  0.0219,0.0375,0.0547,0.833,0.0581,0.0122,
+                  0.0282,0.0615)
         nams<-c("A","R","N","D","C","Q","E","G","H","I","L","K","M","F","P","S","T","W","Y","V")
         gen_bg<-matrix(rep(x = values,ncol(foreground_rates())),nrow = 20,dimnames = list(nams))
         w <- log2(foreground_rates()/gen_bg)
