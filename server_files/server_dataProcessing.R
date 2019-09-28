@@ -32,7 +32,7 @@ slide_filter<-reactive({
 
 signal_as_ratio_background_foreground<-reactive({
   temp<-slide_filter()  
-  if (input$signal_ratio == TRUE){
+  if (input$signal_ratio == "Ratio"){
 
     #input$'modified-reactiveColDropdown'
     foreground<-sym(input$'foreground-reactiveColDropdown')
@@ -42,6 +42,16 @@ signal_as_ratio_background_foreground<-reactive({
       #group_by(dots =c("Experiment_Number","slide_template","slide_position",input$'unique-peptide-identifier-reactiveColDropdown')) %>% 
       mutate(Signal = (!!(foreground))/(!!(background)))
   }
+  if (input$signal_ratio == "Difference"){
+      
+      #input$'modified-reactiveColDropdown'
+      foreground<-sym(input$'foreground-reactiveColDropdown')
+      background<-sym(input$'background-reactiveColDropdown')
+      temp<-temp%>%
+          as_tibble()%>%
+          #group_by(dots =c("Experiment_Number","slide_template","slide_position",input$'unique-peptide-identifier-reactiveColDropdown')) %>% 
+          mutate(Signal = (!!(foreground))-(!!(background)))
+  }  
   temp
 })
 signal_as_ratio_modified_unmodified<- reactive({

@@ -15,7 +15,7 @@ wellPanel(h4("Filtering & Transformation"),
                   
               ),
               verticalLayout(
-                  checkboxInput("signal_ratio","Signal as Ratio?", value = FALSE),
+                  radioButtons("signal_ratio", "Signal as ratio or difference",choices = c("Ratio","Difference","none"),selected = "none" ),
                   reactiveColumnDropdownUI("foreground"),
                   reactiveColumnDropdownUI("background")
                   #reactiveColumnDropdownUI("unique-peptide-identifier")
